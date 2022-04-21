@@ -763,6 +763,8 @@ export JMO=190
 export DIAG_TABLE=diag_table_gfsv16
 export FIELD_TABLE=field_table_gfsv16
 
+export USE_IO_NETCDF=.false.
+
 # Coldstart/warmstart
 #rt script for ICs
 export MODEL_INITIALIZATION=false

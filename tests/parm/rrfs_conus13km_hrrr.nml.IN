@@ -20,6 +20,10 @@
     launch_level = 25
 /
 
+&fv3gfs_io
+  use_io_netcdf = @[USE_IO_NETCDF]
+/
+
 &diag_manager_nml
     prepend_date = .false.
     max_output_fields = @[MAX_OUTPUT_FIELDS]
