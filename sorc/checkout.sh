@@ -173,6 +173,15 @@ if [[ $checkout_wafs == "YES" ]]; then
   checkout "gfs_wafs.fd" "https://github.com/NOAA-EMC/EMC_gfs_wafs.git" "014a0b8"; errs=$((errs + $?))
 fi
 
+if [[ ! -d prepchem_NC.fd ]] ; then
+echo prepchem_NC.fd checkout ...
+    rm -f ${topdir}/checkout-prepchem_NC.fd.log
+    git clone  gerrit:GSD-prep-chem prepchem_NC.fd >> ${topdir}/checkout-prepchem_NC.fd.log 2>&1
+    cd ${topdir}
+else
+    echo 'Skip.  Directory prepchem_NC.fd already exists.'
+fi
+
 if [[ $checkout_gtg == "YES" ]]; then
   ################################################################################
   # checkout_gtg
