@@ -50,6 +50,7 @@ export cpl=".false."
 export cplflx=".false."
 export cplice=".false."
 export cplchm=".false."
+export cplchp=".false."
 export cplwav=".false."
 
 # cpl changes based on APP
@@ -59,6 +60,9 @@ if [ $DO_COUPLED = "YES" ]; then
 fi
 if [ $DO_AERO = "YES" ]; then
   export cplchm=".true."
+fi
+if [ $DO_GChem = "YES" ]; then
+  export cplchp=".true."
 fi
 if [ $DO_ICE = "YES" ]; then
   export cplice=".true."
@@ -162,7 +166,8 @@ tbf=""
 if [ $satmedmf = ".true." ]; then tbf="_satmedmf" ; fi
 
 # Radiation options 
-export IAER=1011    ; #spectral band mapping method for aerosol optical properties
+export IAER=1011    ; #spectral band mapping method for aerosol optical properties from MERRA-2 data
+#export IAER=2011    ; #spectral band mapping method for aerosol optical properties from online chemial model
 export iovr_lw=3    ; #de-correlation length cloud overlap method (Barker, 2008) 
 export iovr_sw=3    ; #de-correlation length cloud overlap method (Barker, 2008) 
 export iovr=3       ; #de-correlation length cloud overlap method (Barker, 2008) 
@@ -342,6 +347,13 @@ elif [[ "$CDUMP" == "gfs" ]] ; then # GFS cycle specific parameters
             export restart_interval="$STEP_GFS $restart_interval"
         fi
     fi
+
+    if [ $DO_GChem = "YES" ]; then
+        # Make sure a restart file is written at the cadence time
+        if [[ ! "${restart_interval[*]}" =~ "$STEP_GFS"  ]]; then
+            export restart_interval="$STEP_GFS $restart_interval"
+        fi
+    fi
     
     # Choose coupling with wave
     if [ $DO_WAVE = "YES" -a "$WAVE_CDUMP" != "gdas" ]; then 
@@ -374,6 +386,13 @@ if [ $DO_AERO = "YES" ]; then # temporary settings for aerosol coupling
     export dnats_aero="${aero_diag_tracers:-0}"
 fi
 
+if [ $DO_GChem = "YES" ]; then # temporary settings for aerosol coupling
+    export AERO_DIAG_TABLE="${AERO_DIAG_TABLE:-$HOMEgfs/parm/parm_fv3diag/diag_table.gchem}"
+    export AERO_FIELD_TABLE="${AERO_FIELD_TABLE:-$HOMEgfs/parm/parm_fv3diag/field_table.gchem}"
+    export fscav_aero="'*:0.2','sulf:0.8','bc1:0.3','bc2:0.3','oc1:0.3','oc2:0.3','seas1:0.5','seas2:0.5','seas3:0.5','seas4:0.5','seas5:0.5'"
+    #export fscav_aero="'*:0.0'"
+    export dnats_aero="${aero_diag_tracers:-0}"
+fi
 # Remember config.efcs will over-ride these values for ensemble forecasts
 # if these variables are re-defined there.
 # Otherwise, the ensemble forecast will inherit from config.fcst

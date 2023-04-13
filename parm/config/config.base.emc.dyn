@@ -158,10 +158,15 @@ export DO_WAVE="NO"
 export DO_OCN="NO"
 export DO_ICE="NO"
 export DO_AERO="NO"
-export CCPP_SUITE="FV3_GFS_v17_p8"
+export DO_GChem="NO"
+#export CCPP_SUITE="FV3_GFS_v16_gsd_chem"
+export CCPP_SUITE="FV3_GFS_v17_p8_gsd_chem"
+#export CCPP_SUITE="FV3_GFS_v17_p8"
 export WAVE_CDUMP="" # When to include wave suite: gdas, gfs, or both
 export DOBNDPNT_WAVE="NO"
 export cplwav2atm=".false."
+
+export EMITYPE=2 # 1: MODIS, 2: GBBEPx 
 
 case "${APP}" in
   ATM)
@@ -322,7 +327,13 @@ fi
 # fi
 
 # Microphysics Options: 99-ZhaoCarr, 8-Thompson; 6-WSM6, 10-MG, 11-GFDL
-export imp_physics=8
+if [ $CCPP_SUITE = "FV3_GFS_v16_gsd_chem" ]; then
+  export imp_physics=11
+  export DO_GChem="YES"
+elif [ $CCPP_SUITE = "FV3_GFS_v17_p8_gsd_chem" ]; then 
+  export imp_physics=8
+  export DO_GChem="YES"
+fi
 
 # Shared parameters
 # DA engine

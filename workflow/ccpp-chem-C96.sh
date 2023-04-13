@@ -1,13 +1,12 @@
 USER=Kate.Zhang
 
 
-APP=ATM
-BASEDIR=/scratch1/BMC/gsd-fv3-dev/lzhang/qli/global-workflow
+BASEDIR=/scratch1/BMC/gsd-fv3-dev/lzhang/p8-ccpp-chem/global-workflow
 STMP=/scratch1/NCEPDEV/stmp2/$USER
 CONFIGDIR=$BASEDIR/parm/config
 IDATE=2016071500
 EDATE=2016071500
-APP=ATMA
+APP=ATM
 PSLOT=UFS_C96_CCPP
 RES=96
 GFS_CYC=1

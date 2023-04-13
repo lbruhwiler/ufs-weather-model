@@ -205,6 +205,12 @@ elif [ $step = "gldas" ]; then
     export nth_gaussian=1
     export npe_node_gaussian=24
 
+elif [ $step = "prepchem" ]; then
+
+    export wtime_prepchem="00:15:00"
+    export npe_prepchem=2
+    export npe_node_prepchem=1
+
 elif [ $step = "fcst" ]; then
 
     export wtime_fcst="00:30:00"
